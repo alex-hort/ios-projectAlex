@@ -11,8 +11,12 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+
+    
+    
     let loginViewController = LoginViewController()
     let onboardingContainerViewController = OnboardingContainerViewController()
+    let dummyViewController = DummyViewController()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)
@@ -21,26 +25,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         loginViewController.delegate = self
         onboardingContainerViewController.delegate = self
+        dummyViewController.logoutDelegate = self
         
 //        window?.rootViewController = LoginViewController()
         window?.rootViewController = loginViewController//start app
 //        window?.rootViewController = OnboardingViewController(heroImageName: "delorean", titleText: "Bankey is faster, easier to use, and has a brand new look and feel that will make you feel like you are back in the 80s")
         return true
     }
-}
-
-extension AppDelegate: LoginViewControllerDelegate{
-    func didLogin() {
-        setRootViewController(onboardingContainerViewController)
-    }
-}
-
-
-extension AppDelegate: OnboardingContainerViewControllerDelegate{
-    func didFinishOnboarding() {
-        print("Onboarding done")
-    }
-
 }
 
 extension AppDelegate{
@@ -60,3 +51,34 @@ extension AppDelegate{
                           completion: nil)
     }
 }
+
+extension AppDelegate: LoginViewControllerDelegate{
+    func didLogin() {
+        if LocalState.hasOnboarded {
+            setRootViewController(dummyViewController)
+        } else {
+            setRootViewController(onboardingContainerViewController)
+        }
+    }
+}
+
+
+extension AppDelegate: OnboardingContainerViewControllerDelegate{
+    func didFinishOnboarding() {
+        LocalState.hasOnboarded = true
+        setRootViewController(dummyViewController)
+    }
+
+}
+
+
+extension AppDelegate: LogoutDelegate{
+    func didLogout() {
+        //when logout we come back to loginview
+        setRootViewController(loginViewController)
+    }
+    
+    
+}
+
+
