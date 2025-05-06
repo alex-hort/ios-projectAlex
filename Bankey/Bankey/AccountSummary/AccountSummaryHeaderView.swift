@@ -9,6 +9,7 @@ import UIKit
 
 class AccountSummaryHeaderView: UIView{
     
+
     @IBOutlet var contentView: UIView!
     
     override init(frame: CGRect) {
