@@ -143,10 +143,10 @@ extension LoginViewController{
             return
         }
         if username.isEmpty || password.isEmpty{
-            configureView(withMessage: "Username / password never be empty")
-            return
+            signInButton.configuration?.showsActivityIndicator = true
+            delegate?.didLogin() //configure delegate listen
         }
-        if username == "Ale" && password == "123"{
+        if username == "Ale" && password == "22"{
             signInButton.configuration?.showsActivityIndicator = true
             delegate?.didLogin() //configure delegate listen
         } else{
