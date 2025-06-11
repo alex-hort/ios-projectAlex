@@ -109,10 +109,22 @@ extension PasswordStatusView{
 extension PasswordStatusView{
     func updateDisplay(_ text: String){
         let lenghtAndNoSpaceMet = PasswordCriteria.lenghtAndNoSpaceMet(text)
+        let uppercaseMet = PasswordCriteria.uppercaseMet(text)
+        let lowercaseMet = PasswordCriteria.lowercaseMet(text)
+        let digitMet = PasswordCriteria.digitMet(text)
+        let specialCharacterMet = PasswordCriteria.specialCharacterMet(text)
         
         if shouldResetCriteria{
             
             lenghtAndNoSpaceMet ? lengthCriteriaView.isCriteriaMet = true : lengthCriteriaView.reset()
+            
+            uppercaseMet ? uppercaseCriteriaView.isCriteriaMet = true : uppercaseCriteriaView.reset()
+            
+            lowercaseMet ? lowerCaseCriteriaView.isCriteriaMet = true : lowerCaseCriteriaView.reset()
+            
+            digitMet ? digitCriteriaView.isCriteriaMet = true : digitCriteriaView.reset()
+            
+            specialCharacterMet ? specialCharacterCriteriaView.isCriteriaMet = true : specialCharacterCriteriaView.reset()
         }
     }
 }
